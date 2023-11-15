@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDE files
+.idea/
+.vscode/
+
+# Environment
+venv/
+env/
+env_bu/
+bin/
+lib/
+*.sqlite3
+
+# Ignore the local settings file
+config.py
+
+# Ignore logs and other generated files
+*.log
+*.csv
+*.xlsx
+*.xls
+
+# Ignore any compiled Python bytecode
+*.pyc
