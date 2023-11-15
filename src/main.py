@@ -1,6 +1,6 @@
 def read_txt_file(filename):
     pairs = []
-    with open(filename, 'r') as file:
+    with open(filename, "r") as file:
         n = int(file.readline().strip())
         for i in range(n):
             pair = list(map(int, file.readline().strip().split()))
@@ -22,14 +22,16 @@ def possible_combinations_pairs(pairs):
 
     for first_person in first_tribe:
         for second_person in second_tribe:
-            if (first_person % 2 == 0 and second_person % 2 == 1) or (first_person % 2 == 1 and second_person % 2 == 0):
+            if (first_person % 2 == 0 and second_person % 2 == 1) or (
+                first_person % 2 == 1 and second_person % 2 == 0
+            ):
                 count += 1
 
     return count
 
 
 def generate_output(filename, result):
-    with open(filename, 'w') as file:
+    with open(filename, "w") as file:
         file.write(str(result))
 
 

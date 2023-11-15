@@ -22,5 +22,5 @@ class TestWeddingTask(unittest.TestCase):
         self.assertEqual(result_2, 6)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
