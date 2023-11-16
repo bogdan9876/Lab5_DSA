@@ -9,6 +9,9 @@ def read_txt_file(filename):
 
 
 def possible_combinations_pairs(pairs):
+    if not pairs:
+        return 0, []
+
     tribes = [set(pairs[0])]
     counter = 0
     union = []
