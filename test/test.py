@@ -3,14 +3,13 @@ from src.main import possible_combinations_pairs
 
 
 class TestFunctions(unittest.TestCase):
-
     def test_possible_combinations_pairs_with_three_tribes(self):
         pairs = [(1, 2), (2, 4), (3, 5)]
         result, union = possible_combinations_pairs(pairs)
         self.assertEqual(result, 4)
 
     def test_possible_combinations_pairs_with_five_tribes(self):
-        pairs = [(1, 2), (2, 4), (1, 3), (3, 5), (8,10)]
+        pairs = [(1, 2), (2, 4), (1, 3), (3, 5), (8, 10)]
         result, union = possible_combinations_pairs(pairs)
         self.assertEqual(result, 6)
 

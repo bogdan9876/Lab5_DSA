@@ -1,52 +1,56 @@
-def read_txt_file(filename):
+import networkx as nx
+
+
+def read_txt_file(input_file):
     pairs = []
-    with open(filename, "r") as file:
-        n = int(file.readline().strip())
-        for i in range(n):
+    with open(input_file, "r") as file:
+        num_pairs = int(file.readline().strip())
+        for i in range(num_pairs):
             pair = list(map(int, file.readline().strip().split()))
             pairs.append(pair)
     return pairs
 
 
 def possible_combinations_pairs(pairs):
-    if not pairs:
-        return 0, []
+    tribe_graph = nx.Graph()
+    for pair in pairs:
+        if len(pair) == 2:
+            tribe_member_1, tribe_member_2 = pair
+            tribe_graph.add_edge(tribe_member_1, tribe_member_2)
 
-    tribes = [set(pairs[0])]
     counter = 0
     union = []
-
-    for pair in pairs[1:]:
-        for tribe in tribes:
-            if any(member in tribe for member in pair):
-                tribe.update(pair)
-                break
-        else:
-            tribes.append(set(pair))
-
-    tribes_amount = len(tribes)
-
-    for first_tribe in range(tribes_amount):
-        for second_tribe in range(first_tribe + 1, tribes_amount):
-            for first_person in tribes[first_tribe]:
-                for second_person in tribes[second_tribe]:
-                    if (first_person % 2 == 0 and second_person % 2 == 1) or (
-                        first_person % 2 == 1 and second_person % 2 == 0
-                    ):
+    connected_tribes = list(nx.connected_components(tribe_graph))
+    tribe_counter = 0
+    for tribe in connected_tribes:
+        males = {member for member in tribe if member % 2 == 1}
+        females = {member for member in tribe if member % 2 == 0}
+        for other_tribe in connected_tribes[:tribe_counter] + connected_tribes[tribe_counter + 1 :]:
+            other_males = {member for member in other_tribe if member % 2 == 1}
+            other_females = {member for member in other_tribe if member % 2 == 0}
+            for male in males:
+                for female in other_females:
+                    if f"{male}/{female}" not in union:
                         counter += 1
-                        union.append(f"{first_person}/{second_person}")
+                        union.append(f"{male}/{female}")
+            for female in females:
+                for male in other_males:
+                    if f"{male}/{female}" not in union:
+                        counter += 1
+                        union.append(f"{male}/{female}")
+        tribe_counter += 1
 
     return counter, union
 
 
-def generate_output(filename, result, union):
-    with open(filename, "w") as file:
-        file.write(f"{result} (Possible pairs - {', '.join(union)})")
+def generate_output(output_file, counter, pair_union):
+    with open(output_file, "w") as file:
+        file.write(f"{counter} (Possible pairs - {', '.join(pair_union)})")
 
 
 if __name__ == "__main__":
-    input_file = "input.txt"
-    output_file = "output.txt"
-    pairs = read_txt_file(input_file)
-    result, union = possible_combinations_pairs(pairs)
-    generate_output(output_file, result, union)
+    input_filename = "input.txt"
+    output_filename = "output.txt"
+    pairs = read_txt_file(input_filename)
+    counter, union = possible_combinations_pairs(pairs)
+    generate_output(output_filename, counter, union)
